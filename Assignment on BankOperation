@@ -1,0 +1,215 @@
+#register
+# - firstname, lastname , password, email
+# - generate user account
+
+#login
+#- account number and password
+#bank operation
+
+# added feature
+#- gender
+# language selection english or hausa
+# date
+
+# initializing the system
+import random
+import datetime
+
+date = datetime.datetime.now()
+
+database ={} #dictionary
+
+def Language():
+
+    print('******Welcome to Pristine Bank*****')
+    
+    chooseLanguage = int(input('Select your language: 1 (English) 2 (Hausa) \n'))
+   
+    if(chooseLanguage == 1):
+        init()
+    elif(chooseLanguage == 2):
+        hausa()
+    else:
+        print('You have selected invalid option')
+        Language()
+
+
+
+def init():
+
+    print('******Welcome to Pristine Bank*****')
+
+    haveAccount = int(input('Do you have account with us: 1 (Yes) 2 (No) \n'))
+   
+    if(haveAccount == 1):
+        login()
+    elif(haveAccount == 2):
+        register()
+    else:
+        print('You have selected invalid option')
+        init()
+
+
+def login():
+    print('*******Login*******')
+
+    accountNumberFromUser = int(input('What is your account number? \n'))
+    password = input('What is your password? \n')
+
+    for accountNumber,userDetail in database.items():
+        if(accountNumber == accountNumberFromUser):
+            if(userDetail[4] == password):
+                bankOperation(userDetail)
+                
+    print('Invalid account or password')
+    login()
+
+    
+
+def HausaLogin():
+    print('*******Shiga*******')
+
+    accountNumberFromUser = int(input('Menene numbar asusu ka/ki? \n'))
+    password = input('Menene numbar sirrin ka/ki? \n')
+
+    for accountNumber,userDetail in database.items():
+        if(accountNumber == accountNumberFromUser):
+            if(userDetail[4] == password):
+                hausaBankOperation(userDetail)
+                
+    print('Numbar asus ko Numbar sirrin ba daidai ba')
+    HausaLogin()
+
+def register():
+    print('****register****')
+    email = input('what is your email address? \n')
+    gender = input('what is your gender? \n')
+    first_name = input('what is your first name?\n')
+    last_name = input('what is your last name? \n')
+    password = input('create a password for yourself \n')
+    
+    accountNumber = generationAccountNumber()
+
+    database[accountNumber] = [first_name, last_name, gender, email, password]
+
+    print('Your Account has been created and Date created', date)
+    print("****Welcome To Pristine Bank****")
+    print('================================')
+    print(" Your First Name:  %s  \n Last Name:  %s \n Email Address:  %s" % (first_name, last_name, email))
+    print(" Your Account Number is: %d" % accountNumber)
+    print("================================")
+
+
+    login()
+
+
+def HausaRegister():
+    print('****Regista****')
+    email = input('Adreshin email dinka/dinki? \n')
+    gender = input('Na Miji ko Mace? \n')
+    first_name = input('Menene sunanka/sunanki?\n')
+    last_name = input('Menene sunan mahaifinka? \n')
+    password = input('Ka/Ki kirkira numba sirrin\n')
+    
+    accountNumber = generationAccountNumber()
+
+    database[accountNumber] = [first_name, last_name, gender, email, password]
+
+    print('An kirkiro Asusun Ka/Ki da lokaci', date)
+    print('*****Barka da zuwa Pristine Bank******')
+    print('======================================')
+    print(" Sunanka/Sunanki:  %s \n Maifinka:  %s \n Email Adreshin ka/ki:  %s" % (first_name, last_name, email))
+    print(" Numbar Asusu shine wannan: %d" % accountNumber)
+    print("============================================")
+
+
+    HausaLogin()
+
+
+def bankOperation(user):
+
+    print('Welcome %s %s' % (user[0], user[1]))
+    
+    selectedOption = int(input('What would you like to do? (1) Deposit  (2) Withdrawal (3) Logout \n'))
+
+    if(selectedOption == 1):
+        depositOperation()
+    elif(selectedOption == 2):
+        withDrawalOperation()
+    elif(selectedOption == 3):
+        Logout()
+    elif(selectedOption == 4):
+        Logout()
+    else:
+        print('Invalid option selected')
+        bankOperation(user)
+
+
+
+def hausaBankOperation(user):
+
+    print('Barka da zuwa %s %s' % (user[0], user[1]))
+    
+    selectedOption = int(input('Me kuke son kuyi? (1) Ajiyar kudi  (2) Janyewar kudi (3) Fita \n'))
+
+    if(selectedOption == 1):
+        hausaDepositOperation()
+    elif(selectedOption == 2):
+        hausaWithDrawalOperation()
+    elif(selectedOption == 3):
+        HausaLogout()
+    elif(selectedOption == 4):
+        HausaLogout()
+    else:
+        print('Ka/Ki danna numba ba daidai ba')
+        hausaBankOperation(user)
+
+
+
+def generationAccountNumber():
+
+    return random.randrange(1111111111,9999999999)
+
+def hausa():
+    
+    isValidOptionSelected = False
+    print('Barka da zuwa Pristine Bank')
+
+    while isValidOptionSelected == False:
+
+        haveAccount = int(input('Ka/kina da asusun ajiya damu: 1 (Akwai) 2 (Babu) \n'))
+   
+        if(haveAccount == 1):
+           isValidOptionSelected = True
+           HausaLogin()
+        elif(haveAccount == 2):
+           isValidOptionSelected =True
+           HausaRegister()
+        else:
+         print('Ka/Ki danna numba ba daidai ba')
+
+
+def withDrawalOperation():
+    print('withdrawal')
+
+def hausaWithDrawalOperation():
+    print('Janyewar Kudi')
+
+def depositOperation():
+    print('Deposit Operation')
+
+def hausaDepositOperation():
+    print('Ajiyar kudi')
+
+
+def Logout():
+    login()
+
+def HausaLogout():
+    HausaLogin()
+
+
+
+### ACTUAL BANKING SYSTEM ###
+
+Language()
